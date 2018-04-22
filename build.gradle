@@ -28,6 +28,7 @@ dependencies{
     // compile files("${System.properties['java.home']}/../lib/packager.jar")
     // when using OpenJFX (Ubuntu), please adjust accordingly
     // compile files("/usr/share/java/openjfx/lib/packager.jar")
+    compile group: 'org.json', name: 'json', version: '20160810'
 }
 
 apply plugin: 'javafx-gradle-plugin'
@@ -39,7 +40,7 @@ apply plugin: 'javafx-gradle-plugin'
 // for all available settings please look at the class "JavaFXGradlePluginExtension"
 jfx {
     verbose = true
-    mainClass = "com.something.cool.MainApp"
+    mainClass = "src.main.java.src.Main"
     jfxAppOutputDir = "build/jfx/app"
     jfxMainAppJarName = "project-jfx.jar"
     deployDir = "src/main/deploy"
