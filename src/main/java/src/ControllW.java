@@ -1,14 +1,14 @@
 package src;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -19,8 +19,8 @@ import java.util.ResourceBundle;
 
 public class ControllW {
     ObservableList<String> TownyList = FXCollections.observableArrayList(
-            "Default city", "City 17", "Saints-Peterburg", "Smolensk", "San-Francisco", "Orenburg", "Ufa", "Vladivostok", "Sochi", "Orsk", "London");
-    HashMap<String, WeatherCity> Towns = new HashMap<>();
+            "Moscow", "Saints-Peterburg", "Smolensk", "San-Francisco", "Orenburg", "Ufa", "Vladivostok", "Sochi", "Orsk", "London");
+    ObservableList<String> StatusWeather = FXCollections.observableArrayList("Ясный", "Дождливый");
 
     @FXML
     private ChoiceBox someparam1;
@@ -35,22 +35,38 @@ public class ControllW {
     @FXML
     private DatePicker PickDate;
     @FXML
-
-    //@Override
-    private void initialize ()
+    private Slider SelectTemp;
+    @FXML
+    private TextField Inform;
+    @FXML
+    private void initialize()
     {
-        ChoiceTown.setValue("City 17");
+        ChoiceTown.setValue("Moscow");
         ChoiceTown.setItems(TownyList);
         PickDate.setValue(LocalDate.now());
-        TextSts.setText("+-5");
+        someparam1.setValue("Ясный");
+        someparam1.setItems(StatusWeather);
+        TextSts.setText(String.valueOf(SelectTemp.getValue()));
+        SelectTemp.setBlockIncrement(10.0);
+        SelectTemp.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, //
+                                Number oldValue, Number newValue) {
+               TextSts.setText(String.format("%.1f", newValue));
+            }
+        });
+    }
+    public void ActionSomeFunc1 (ActionEvent actionEvent) // Выводим информацию о погоде в заданном городе
+    {
+        TextSts.setText(String.format("%.1f", SelectTemp.getValue()));
+        ChoiceTown.getValue();
+        System.out.println(ChoiceTown.getValue().toString());
+        WeatherCity InformMe = new WeatherCity(); //Создаем объект
+        Inform.setText("Current Town: "+ChoiceTown.getValue().toString() + "\n. " + "Current Temperature: " + InformMe.getStatusWeather(ChoiceTown.getValue().toString()));
 
     }
-    public void ActionSomeFunc1 (ActionEvent actionEvent)
+    public void ActionSomeFunc2 (ActionEvent actionEvent) //
     {
-        TextSts.setText("-+0");
-    }
-    public void ActionSomeFunc2 (ActionEvent actionEvent)
-    {
-        TextSts.setText("+-0");
+        TextSts.setText(String.format("%.1f", SelectTemp.getValue()));
     }
 }
